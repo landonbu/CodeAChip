@@ -1,0 +1,14 @@
+module compPixel
+	#(parameter colorW = 16)
+	#(parameter diffW = colorW+2)
+	(oRED, oBLUE, oGREEN,
+	nRED, nBLUE, nGREEN,
+	DIFF)
+	input [colorW:0]oRED,oBlUE,oGREEN;
+	input [colorW:0]nRED,nBlUE,nGREEN;
+	output [diffW:0]DIFF;
+	assign [colorW:0]rDiff => oRED - nRED;
+	assign [colorW:0]bDiff => oBLUE - nBLUE;
+	assign [colorW:0]gDiff => oGREEN - nGREEN;
+	assign DIFF = rDiff + bDiff + gDiff;
+endmodule 
