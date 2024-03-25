@@ -1,0 +1,20 @@
+#define ROW_ARRAY 20
+#define COLUMN_ARRAY 20
+
+// Compares two variable dim 2d arrays by subtracting and counting the 1's in the outputs array
+module array_comparison(input logic [ROW_ARRAY-1:0] [COLUMN_ARRAY-1:0] sensor_row, input logic [ROW_ARRAY-1:0]
+[COLUMN_ARRAY-1:0] sensor_column, output logic [5:0] diff_count) 
+    logic [ROW_ARRAY-1:0] [COLUMN_ARRAY-1:0] diff_matrix
+    
+    always_comb begin : difference_calc   // Subtraction of two variable 2d sized arrays into a 2d output array and adds 1's to diff_count
+        for (i = 0; i < ROW_ARRAY; i = i + 1) begin : ROW_LOOP
+            for (j = 0; j < COLUMN_ARRAY; j = j + 1) begin : COLUMN_LOOP
+                difference[i][j] = sensor_row[i][j] - sensor_column[i][j];
+                if (difference[i][j]) begin
+                    diff_count += 1;
+                end
+            end
+        end
+    end
+
+endmodule
