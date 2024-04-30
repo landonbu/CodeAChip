@@ -1,6 +1,8 @@
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
 
+# from open_pdks.sky130a import sky130a as sky
+
 gf.config.rich_output()
 gf.CONF.display_type = "klayout"
 
@@ -36,22 +38,42 @@ def start_tile(tile):
 
     return c;
 
+# @gf.cell
+def add_grid_member(toplevel, component, offset):
+    # toplevel: the top level component to add to
+    # component: the component being added
+    # offset to add it
+
+    toplevel.add_ref(component).move(offset)
+    
+    # return toplevel;
+
 @gf.cell
-def start_tile_pd(tilepath):
+def start_tile_pd(tilepath, xdim = 1, ydim = 1):
 
     c = gf.Component("tileimport")
 
     pd = gf.read.import_gds(tilepath)
 
-    ref1 = c.add_ref(pd)
-    ref1.rotate(90)
+    # add_grid_member(c, pd, [0, 0])
 
-    ref2 = c.add_ref(pd)
-    ref2.rotate(180)
+    for i in range(xdim):
+        for j in range(ydim):
+            add_grid_member(c, pd, [(pd.xsize + 20)*i, (pd.xsize + 20)*j])
+
+    # c.add_ref(pd).move([-100, 0])
+
+    # add_grid_member(c, pd, [10, 0])
+
+    # add_grid_member(c, pd, [0, 20])
     
     return c;
 
 # c = demo_polygons()
 # g = start_tile(c)
-g = start_tile_pd("./src_cells/just_the_pd.gds")
-g.plot()  # show it in KLayout
+g = start_tile_pd("./src_cells/just_the_pd.gds", xdim=10, ydim=20)
+# g.plot()  # show it in KLayout
+g.write_gds("./outfiles/test_out.gds")
+g.show() # updates klive
+
+# just run this .py file in a directory with access to gdsfactory and klayout
