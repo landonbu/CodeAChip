@@ -20,6 +20,38 @@ def demo_polygons():
     )  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)
     return c
 
+# @gf.cell
+# def import_tile(gdspath):
 
-c = demo_polygons()
-c.plot()  # show it in KLayout
+@gf.cell
+def start_tile(tile):
+
+    c = gf.Component("tilestart?")
+
+    ref1 = c.add_ref(tile)
+    ref1.rotate(90)
+
+    ref2 = c.add_ref(tile)
+    ref2.rotate(180)
+
+    return c;
+
+@gf.cell
+def start_tile_pd(tilepath):
+
+    c = gf.Component("tileimport")
+
+    pd = gf.read.import_gds(tilepath)
+
+    ref1 = c.add_ref(pd)
+    ref1.rotate(90)
+
+    ref2 = c.add_ref(pd)
+    ref2.rotate(180)
+    
+    return c;
+
+# c = demo_polygons()
+# g = start_tile(c)
+g = start_tile_pd("./src_cells/just_the_pd.gds")
+g.plot()  # show it in KLayout
