@@ -1,13 +1,16 @@
 import gdsfactory as gf
-from gdsfactory.generic_tech import get_generic_pdk
+# from gdsfactory.generic_tech import get_generic_pdk
+
+import sky130.components as sc
+import sky130.tech as st
 
 # from open_pdks.sky130a import sky130a as sky
 
 gf.config.rich_output()
 gf.CONF.display_type = "klayout"
 
-PDK = get_generic_pdk()
-PDK.activate()
+# PDK = get_generic_pdk()
+# PDK.activate()
 
 
 @gf.cell
@@ -73,7 +76,7 @@ def start_tile_pd(tilepath, xdim = 1, ydim = 1):
 # g = start_tile(c)
 g = start_tile_pd("./src_cells/just_the_pd.gds", xdim=10, ydim=20)
 # g.plot()  # show it in KLayout
-g.write_gds("./outfiles/test_out.gds")
-g.show() # updates klive
+# g.write_gds("./outfiles/test_out.gds")
+g.show(gdspath="./outfiles/test_out.gds") # updates klive
 
 # just run this .py file in a directory with access to gdsfactory and klayout
